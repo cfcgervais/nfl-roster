@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NFL Roster</title>
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Lalezar|Orbitron" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="jumbotron text-center text">
+            <h1>NFL Roster</h1>
+            <div class="player-form text-center">
+                <h4>Fuck My Life</h4>
+                 <form "new-player-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder ="Player Name" id="playerInput" required>
+                        <input type="text" class="form-control" placeholder ="Position" id="positionInput" required>
+                        <input type="text" class="form-control" placeholder ="Team" id="numberInput" required>
+                        <button type="submit" class="btn btn-success">Add</button>
+                        <button id="byTeam" type="submit" class="btn btn-success">Team</button>
+                        <button id="byPos" type="submit" class="btn btn-success">Position</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="container-fluid text-center text img">
+        <div class="row">
+            <div class="player-roster" id="roster">
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="service.js"></script>
+    <script src="controller.js"></script>
+</body>
+</html>
+                        
+                        
+            
+                
+
+        
+        
+    
