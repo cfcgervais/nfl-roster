@@ -1,83 +1,85 @@
 function PlayerService(){
-    var PlayerService = function(EndPointUrl, callback){
-    var playersData = [];
-    var _players = [];
+  var _players = [];
+  var _nflPlayers = [];
+  var _filteredPlayers = [];
+  var playersData = [];
+  var id = 3;
 
-    function Player(name, team, position, jersey, imageLink, id) {
-        this.fullname = name;
-        this.pro_team = team;
-        this.position = position;
-        this.jersey = jersey;
-        this.photo = imageLink;
-        this.id = id;
 
-    this.getPlayers = function(){
-    return _players
+
+  this.getPlayerById = function(id) {
+    for (i = 0; i < playersData.length; i++) {
+      if (playersData[i].id == id) {
+        return playersData[i];
+      }
+    }
   }
+  this.getPlayersByTeam = function(teamName){
+        return playersData.filter(function(player){
+          if(player.pro_team == teamName){
+            return true;
+        }});
+    }
 
+    this.getPlayersByPosition = function(position){
+        return playersData.filter(function(player){
+          if(player.position == position){
+            return true;
+        }});
+    }
+    
+    this.getPlayersByName = function(fullname){
+            return playersData.filter(function(player){
+              if(player.fullname == fullname){
+                return true;
+            }});
+        }
+
+    function cleanPlayersData(){
+      playersData = playersData.filter(function(player){
+        if(player.pro_status){
+        return true;
+        };
+      })
+      playersData = playersData.filter(function(player) {
+        if(player.jersey){
+          return true;
+        }
+      })
+    }        
+        
+    this.getPlayers = function(cb){
+    cb(_nflplayers)
+
+    }
+  
     this.addPlayer = function(name, pos, jersey){
     if(!name || !pos|| !jersey){
       return
     }
-        var player = new Player(name, pos, jersey)
-        _players.push(player)
-        }
+    var player = new Player(name, pos, jersey)
+    _players.push(player)
+    }
   
-  this.removePlayer = function(id){
-    for (var i = 0; i < _players.length; i++) {
-      var player = _players[i]
-      if(player.id == id){
-        return _players.splice(i,1)
-      }
-    }
-  }
-
-    this.getPlayersByTeam = function(teamName){
-        playersData.filter(function(player){
-        if(player.team == teamName){
-        return true;
-        }
-    });  
-    }
-
-    this.getPlayersByPosition = function(position){
-        playersData.filter(function(player){
-      if(player.position == position){
-        return true;
-      }
-    });
-    }
-
-   
-    
-    
-    
-  this.getNFL = function loadPlayersData(callback){
+    this.getNFL = function loadPlayersData(callback){
       var apiUrl = "http://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=football&response_format=json";
-      //Lets check the localstorage for the data before making the call.
-      //Ideally if a user has already used your site 
-      //we can cut down on the load time by saving and pulling from localstorage 
-
       var localData = localStorage.getItem('playersData');
       if(localData){
         playersData = JSON.parse(localData);
         return callback(playersData); 
-        //return will short-circuit the loadPlayersData function
-        //this will prevent the code below from ever executing
-      }
-
+      };
+      
       var url = "http://bcw-getter.herokuapp.com/?url=";
       var endPointUrl = url + encodeURIComponent(apiUrl);
         $.getJSON(endPointUrl, function(data){
           playersData = data.body.players;
           console.log('Player Data Ready')
           console.log('Writing Player Data to localStorage')
+          cleanPlayersData()
           localStorage.setItem('playersData', JSON.stringify(playersData))
           console.log('Finished Writing Player Data to localStorage')
           callback(playersData) 
         });
-    }
     }   
-
 }
-}
+  
