@@ -62,14 +62,14 @@ function PlayerService(){
     }
   
     this.getNFL = function loadPlayersData(callback){
-      var apiUrl = "http://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=football&response_format=json";
+      var apiUrl = "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=football&response_format=json";
       var localData = localStorage.getItem('playersData');
       if(localData){
         playersData = JSON.parse(localData);
         return callback(playersData); 
       };
       
-      var url = "http://bcw-getter.herokuapp.com/?url=";
+      var url = "https://bcw-getter.herokuapp.com/?url=";
       var endPointUrl = url + encodeURIComponent(apiUrl);
         $.getJSON(endPointUrl, function(data){
           playersData = data.body.players;
